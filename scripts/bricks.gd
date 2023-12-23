@@ -1,4 +1,4 @@
-extends Node2D
+extends StaticBody2D
 
 var windowWidth = OS.get_window_size().x
 var windowHeight = OS.get_window_size().y
@@ -56,10 +56,10 @@ func create_bricks(level):
 		
 		numberofbricks -= 1
 		brickShape.add_to_group("bricks")
-		self.add_child(brickShape)
+		self.add_child(brickShape, true)
 		var brickCollision = CollisionPolygon2D.new()
 		brickCollision.set_polygon(brickVertex)
-		brickShape.add_child(brickCollision)
+		self.add_child(brickCollision, true)
 
 func change_color(rowChanged):
 	if rowChanged == 0:

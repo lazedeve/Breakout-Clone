@@ -51,12 +51,12 @@ func create_paddle():
 	
 	paddleShape.set_polygon(paddleVertices)
 	paddleShape.set_color(Color.white)
-	self.add_child(paddleShape)
+	self.add_child(paddleShape, true)
 	paddleCollisionPolygon()
 
 func paddleCollisionPolygon():
 	var paddleCollision = CollisionPolygon2D.new()
 	
 	paddleCollision.set_polygon(paddleVertices)
-	paddleShape.add_child(paddleCollision)
+	self.add_child(paddleCollision, true)
 	
