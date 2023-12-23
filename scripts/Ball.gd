@@ -51,10 +51,13 @@ func _physics_process(delta):
 	if collision != null:
 		speed = 400
 		var body = collision.collider
-		print(body)
 		if body.is_in_group("bricks"):
-			print("collision")
+			bounce(collision)
+			body.queue_free()
 		else:
-			var reflect = collision.remainder.bounce(collision.normal)
-			velocity = velocity.bounce(collision.normal)
-			move_and_collide(reflect)
+			bounce(collision)
+
+func bounce(collision):
+	var reflect = collision.remainder.bounce(collision.normal)
+	velocity = velocity.bounce(collision.normal)
+	move_and_collide(reflect)
