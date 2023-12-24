@@ -9,11 +9,13 @@ var halfWindowHeight = windowHeight / 2
 var rightBorderWidth = 10
 var leftBorderWidth = 10
 var topBorderWidth = 10
+var bottomBorderWidth = 20
 
 func _ready():
 	topBorder()
 	rightBorder()
 	leftBorder()
+	bottomBorder()
 	add_to_group("borders")
 
 func topBorder():
@@ -32,6 +34,28 @@ func topBorder():
 	var topBorderCollision = CollisionPolygon2D.new()
 	topBorderCollision.set_polygon(topBorderVertices)
 	self.add_child(topBorderCollision, true)
+
+
+func bottomBorder():
+	var bottomBorderBody = StaticBody2D.new()
+	var bottomBorderPolygon = Polygon2D.new()
+	var bottomBorderVertices = PoolVector2Array()
+	
+	bottomBorderVertices.push_back(Vector2(leftBorderWidth, windowHeight))
+	bottomBorderVertices.push_back(Vector2(windowWidth - rightBorderWidth, windowHeight))
+	bottomBorderVertices.push_back(Vector2(windowWidth - rightBorderWidth, windowHeight - bottomBorderWidth))
+	bottomBorderVertices.push_back(Vector2(leftBorderWidth, windowHeight - bottomBorderWidth))
+	
+	bottomBorderPolygon.set_polygon(bottomBorderVertices)
+	bottomBorderPolygon.set_color(Color.red)
+	bottomBorderBody.add_child(bottomBorderPolygon, true)
+	
+	var bottomBorderCollision = CollisionPolygon2D.new()
+	bottomBorderCollision.set_polygon(bottomBorderVertices)
+	bottomBorderBody.add_child(bottomBorderCollision, true)
+	
+	self.add_child(bottomBorderBody)
+	bottomBorderBody.add_to_group("avoid")
 
 func rightBorder():
 	var rightBorderPolygon = Polygon2D.new()

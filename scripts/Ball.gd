@@ -1,12 +1,14 @@
 extends KinematicBody2D
 
+signal outOfBounds
+
 var windowWidth = OS.get_window_size().x
 var windowHeight = OS.get_window_size().y
 
 var halfWindowWidth = windowWidth / 2
 var halfWindowHeight = windowHeight / 2
 
-export var ballRadius = 8
+export var ballRadius = 7
 
 export var ballTotalVertices = 50
 
@@ -17,7 +19,7 @@ var ballOrigin = Vector2(halfWindowWidth, halfWindowHeight + 200)
 var xVertice
 var yVertice
 
-var velocity = Vector2(10, 100)
+var velocity = Vector2(0, 200)
 var speed
 var direction
 
@@ -49,8 +51,14 @@ func create_ball():
 func _physics_process(delta):
 	var collision_info = move_and_collide(velocity * delta)
 	if collision_info:
+		var body = collision_info.collider
 		velocity = velocity.bounce(collision_info.normal)
-		if collision_info.collider.is_in_group("bricks"):
+		if body.is_in_group("bricks"):
+			$Hit.play()
+			velocity.y *= - 1
 			velocity = velocity.bounce(collision_info.normal)
 			collision_info.collider.queue_free()
+		
+		if body.is_in_group("avoid"):
+			emit_signal("outOfBounds")
 	

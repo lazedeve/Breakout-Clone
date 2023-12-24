@@ -1,8 +1,9 @@
 extends StaticBody2D
 
-var numberofbricks: int
-var brickWidth = 50
-var brickHeight = 20
+var brickClass = BrickData.new()
+
+var brickWidth = brickClass.brickWidth
+var brickHeight = brickClass.brickHeight
 
 var brickShape
 

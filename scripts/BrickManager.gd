@@ -3,41 +3,50 @@ extends Node2D
 var windowWidth = OS.get_window_size().x
 var windowHeight = OS.get_window_size().y
 
+var brickClass = BrickData.new()
+
+var brickWidth = brickClass.brickWidth
+var brickHeight = brickClass.brickHeight
 
 onready var brickScene = preload("res://scenes/bricks.tscn")
 
 var numberofbricks: int
 
 export var topOffset: float = windowHeight / 9
-export var horizontalGapBetweenBricks = 10
-export var verticalGapBetweenBricks = 10
+export var horizontalGapBetweenBricks = 5
+export var verticalGapBetweenBricks = 5
 
 var brickColor = Color(0.78, 0.28, 0.28, 1)
+
+var borderThickness = 10
 
 var currentLevel
 
 
 func _ready():
 	randomize()
-	add_bricks(1)
+	add_bricks(15)
+
 
 func add_bricks(level):
 	
-	var xBrickPosition = rand_range(windowWidth / 10, windowWidth / 10)
+	numberofbricks = 60 * level * 0.1
+	numberofbricks = clamp(numberofbricks, 60, 200)
+	var leftEdge = borderThickness
+	var rightEdge = windowWidth - borderThickness
+	
+	var playeAreaWidth = rightEdge - leftEdge
+	var maxPlayHeight = windowHeight / 2
+	
+	var minBrickPositionX = leftEdge
+	var maxBrickPositionX = rightEdge - brickWidth
+	
+	var xBrickPosition = rand_range(minBrickPositionX, 6 * brickWidth)
 	var yBrickPosition = topOffset
-	var z = 0
+	
+	var firstBrickGap = xBrickPosition - leftEdge
 	
 	var rowChanged = 0
-	
-	#numberofbricks = level*50*0.1
-	numberofbricks = clamp(numberofbricks, 62, 62)
-	
-	var maxHorizontalSpace = windowWidth - xBrickPosition
-	var maxVerticalSpace = (windowHeight / 2)
-	
-	#var brickSpace = Vector2(maxHorizontalSpace, maxVerticalSpace)
-	
-	#var maxHorizontalBricks: int = brickSpace.x / numberofbricks
 	
 	while numberofbricks > 0:
 		
@@ -49,22 +58,23 @@ func add_bricks(level):
 		bricks.set_brick_position(brickPosition)
 		bricks.set_brick_color(brickColor)
 		
-		xBrickPosition += bricks.brickWidth + horizontalGapBetweenBricks
+		xBrickPosition += brickWidth + horizontalGapBetweenBricks
 		
-		if xBrickPosition > maxHorizontalSpace:
-			if numberofbricks <= 10:
-				numberofbricks = maxHorizontalSpace / bricks.brickWidth
-			yBrickPosition += bricks.brickHeight + verticalGapBetweenBricks
-			xBrickPosition = rand_range(windowWidth / 7, windowWidth / 4)
+		if xBrickPosition + brickWidth >= rightEdge - firstBrickGap:
+			yBrickPosition += brickHeight + verticalGapBetweenBricks
+			xBrickPosition = rand_range(minBrickPositionX, 6 * brickWidth)
+			firstBrickGap = xBrickPosition - leftEdge
 			rowChanged += 1
 			change_color(rowChanged)
-			maxHorizontalSpace = windowWidth - (xBrickPosition + bricks.brickWidth / 2)
 			
-			if yBrickPosition > maxVerticalSpace:
-				break
-		
-		
+		if numberofbricks <= 1 and xBrickPosition + brickWidth < rightEdge - firstBrickGap:
+			numberofbricks += (xBrickPosition + brickWidth) / brickWidth
+			maxPlayHeight = yBrickPosition + brickHeight
+		if yBrickPosition >= maxPlayHeight:
+			break
+			
 		numberofbricks -= 1
+
 
 
 func change_color(rowChanged):
