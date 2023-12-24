@@ -22,24 +22,25 @@ var borderThickness = 10
 
 var currentLevel
 
+var brickCounter = 1
+
+var leftEdge = borderThickness
+var rightEdge = windowWidth - borderThickness
+var playeAreaWidth = rightEdge - leftEdge
+var maxPlayHeight = windowHeight / 2
+
 
 func _ready():
 	randomize()
-	add_bricks(15)
 
 
 func add_bricks(level):
 	
 	numberofbricks = 60 * level * 0.1
 	numberofbricks = clamp(numberofbricks, 60, 200)
-	var leftEdge = borderThickness
-	var rightEdge = windowWidth - borderThickness
-	
-	var playeAreaWidth = rightEdge - leftEdge
-	var maxPlayHeight = windowHeight / 2
 	
 	var minBrickPositionX = leftEdge
-	var maxBrickPositionX = rightEdge - brickWidth
+	#var maxBrickPositionX = rightEdge - brickWidth
 	
 	var xBrickPosition = rand_range(minBrickPositionX, 6 * brickWidth)
 	var yBrickPosition = topOffset
@@ -47,8 +48,7 @@ func add_bricks(level):
 	var firstBrickGap = xBrickPosition - leftEdge
 	
 	var rowChanged = 0
-	
-	while numberofbricks > 0:
+	while numberofbricks > -1:
 		
 		var brickPosition = Vector2(xBrickPosition, yBrickPosition)
 		
@@ -74,6 +74,9 @@ func add_bricks(level):
 			break
 			
 		numberofbricks -= 1
+		brickCounter += 1
+	
+	print(brickCounter)
 
 
 

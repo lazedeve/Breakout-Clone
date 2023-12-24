@@ -9,12 +9,24 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "KinematicBody2D",
+"class": "Ball",
+"language": "GDScript",
+"path": "res://scripts/Ball.gd"
+}, {
+"base": "StaticBody2D",
+"class": "Borders",
+"language": "GDScript",
+"path": "res://scripts/Borders.gd"
+}, {
 "base": "Node",
 "class": "BrickData",
 "language": "GDScript",
-"path": "res://scripts/BrickData.gd"
+"path": "res://classes/BrickData.gd"
 } ]
 _global_script_class_icons={
+"Ball": "",
+"Borders": "",
 "BrickData": ""
 }
 
@@ -23,11 +35,6 @@ _global_script_class_icons={
 config/name="BreakOut"
 run/main_scene="res://scenes/Main.tscn"
 config/icon="res://icon.png"
-
-[display]
-
-window/size/always_on_top=true
-window/stretch/mode="viewport"
 
 [gui]
 

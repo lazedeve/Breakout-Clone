@@ -24,10 +24,13 @@ var velocity = Vector2.ZERO
 func _ready():
 	create_paddle()
 
+
 func _physics_process(delta):
 	var direction = get_input().normalized()
 	velocity = paddleSpeed * direction
 	move_and_slide(velocity)
+
+
 
 func get_input():
 	var input = Vector2.ZERO

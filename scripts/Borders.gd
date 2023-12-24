@@ -1,3 +1,4 @@
+class_name Borders
 extends StaticBody2D
 
 var windowWidth = OS.get_window_size().x
@@ -6,10 +7,10 @@ var windowHeight = OS.get_window_size().y
 var halfWindowWidth = windowWidth / 2
 var halfWindowHeight = windowHeight / 2
 
-var rightBorderWidth = 10
-var leftBorderWidth = 10
-var topBorderWidth = 10
-var bottomBorderWidth = 20
+export var rightBorderWidth = 10
+export var leftBorderWidth = 10
+export var topBorderWidth = 10
+export var bottomBorderWidth = 20
 
 func _ready():
 	topBorder()
