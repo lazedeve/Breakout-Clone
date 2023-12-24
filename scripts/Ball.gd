@@ -12,12 +12,12 @@ export var ballTotalVertices = 50
 
 var theta
 
-var ballOrigin = Vector2(halfWindowWidth, halfWindowHeight)
+var ballOrigin = Vector2(halfWindowWidth, halfWindowHeight + 200)
 
 var xVertice
 var yVertice
 
-var velocity = Vector2(0, -100)
+var velocity = Vector2(10, 100)
 var speed
 var direction
 
@@ -47,17 +47,10 @@ func create_ball():
 	self.add_child(ballCollisionShape, true)
 
 func _physics_process(delta):
-	var collision = move_and_collide(velocity * delta)
-	if collision != null:
-		speed = 400
-		var body = collision.collider
-		if body.is_in_group("bricks"):
-			bounce(collision)
-			body.queue_free()
-		else:
-			bounce(collision)
-
-func bounce(collision):
-	var reflect = collision.remainder.bounce(collision.normal)
-	velocity = velocity.bounce(collision.normal)
-	move_and_collide(reflect)
+	var collision_info = move_and_collide(velocity * delta)
+	if collision_info:
+		velocity = velocity.bounce(collision_info.normal)
+		if collision_info.collider.is_in_group("bricks"):
+			velocity = velocity.bounce(collision_info.normal)
+			collision_info.collider.queue_free()
+	

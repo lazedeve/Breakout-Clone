@@ -7,7 +7,7 @@ var halfWindowWidth = windowWidth / 2
 var halfWindowHeight = windowHeight / 2
 
 export var paddleWidth: float = 50
-export var paddleHeight: float = 15
+export var paddleHeight: float = 10
 
 var paddleHalfWidth = paddleWidth / 2
 var paddleHalfHeight = paddleHeight / 2

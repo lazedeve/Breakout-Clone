@@ -15,6 +15,8 @@ export var verticalGapBetweenBricks = 10
 var brickColor = Color(0.78, 0.28, 0.28, 1)
 
 var currentLevel
+
+
 func _ready():
 	randomize()
 	add_bricks(1)
@@ -50,14 +52,17 @@ func add_bricks(level):
 		xBrickPosition += bricks.brickWidth + horizontalGapBetweenBricks
 		
 		if xBrickPosition > maxHorizontalSpace:
+			if numberofbricks <= 10:
+				numberofbricks = maxHorizontalSpace / bricks.brickWidth
 			yBrickPosition += bricks.brickHeight + verticalGapBetweenBricks
 			xBrickPosition = rand_range(windowWidth / 7, windowWidth / 4)
 			rowChanged += 1
 			change_color(rowChanged)
-			maxHorizontalSpace = windowWidth - xBrickPosition
+			maxHorizontalSpace = windowWidth - (xBrickPosition + bricks.brickWidth / 2)
 			
 			if yBrickPosition > maxVerticalSpace:
 				break
+		
 		
 		numberofbricks -= 1
 
@@ -73,3 +78,8 @@ func change_color(rowChanged):
 		brickColor = Color.blue
 	if rowChanged == 4:
 		brickColor = Color.whitesmoke
+	if rowChanged > 4:
+		var r = rand_range(0, 1)
+		var g = rand_range(0, 1)
+		var b = rand_range(0, 1)
+		brickColor = Color(r, g, b, 1)
